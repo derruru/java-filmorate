@@ -20,6 +20,9 @@ public class User {
     private LocalDate birthday;
     private Set<Integer> friends = new HashSet<>();
 
+    public User(){
+
+    }
 
     public User(String email, String login, String name, LocalDate localDate) {
         this.email = email;
