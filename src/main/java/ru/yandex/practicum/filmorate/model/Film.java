@@ -6,9 +6,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
-public class Film {
+public class Film implements Comparable<Film> {
 
     private int id;
     @NotBlank
@@ -18,6 +20,7 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private int duration;
+    private Set<Integer> likes = new HashSet<>();
 
     public Film() {
     }
@@ -37,4 +40,20 @@ public class Film {
         this.duration = duration;
     }
 
+    public void addLike(int id) {
+        likes.add(id);
+    }
+
+    public void removeLike(int id) {
+        likes.remove(id);
+    }
+
+    public int getCountLikes() {
+        return likes.size();
+    }
+
+    @Override
+    public int compareTo(Film o) {
+        return o.getCountLikes() - this.getCountLikes();
+    }
 }

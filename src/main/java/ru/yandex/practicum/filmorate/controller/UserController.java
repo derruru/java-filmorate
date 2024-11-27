@@ -1,68 +1,63 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
-@Slf4j
 public class UserController {
 
-    private Map<Integer, User> users = new HashMap<>();
-    private int id = 1;
+    UserService service;
+
+    @Autowired
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     @PostMapping
-    public User createUser(@Valid @RequestBody User user) throws ValidationException {
-        if (!isValid(user)) {
-            log.info("Дата рождения не может быть в будущем!");
-            throw new ValidationException("Дата рождения не может быть в будущем!");
-        }
-        setUserName(user);
-        user.setId(id);
-        users.put(id++, user);
-        log.info(user.toString());
-        return user;
+    public User createUser(@Valid @RequestBody User user) {
+        return service.createUser(user);
     }
 
     @PutMapping
-    public User updateUser(@Valid @RequestBody User user) throws ValidationException {
-        if (!isValid(user)) {
-            log.info("Дата рождения не может быть в будущем!");
-            throw new ValidationException("Дата рождения не может быть в будущем!");
-        }
-        if (!users.containsKey(user.getId())) {
-            log.info("Пользователя с id " + user.getId() + " не существует!");
-            throw new ValidationException("Пользователя с id " + user.getId() + " не существует!");
-        }
-        setUserName(user);
-        users.remove(user.getId());
-        users.put(user.getId(), user);
-        log.info(user.toString());
-        return user;
+    public User updateUser(@Valid @RequestBody User user) {
+        return service.updateUser(user);
     }
 
     @GetMapping
     public List<User> getUsers() {
-        return new ArrayList<>(users.values());
+        return service.getUsers();
     }
 
-    private boolean isValid(User user) {
-        return LocalDate.now().isAfter(user.getBirthday());
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable int id) {
+        return service.getUserById(id);
     }
 
-    private void setUserName(User user) {
-        String name = user.getName();
-        if (name == null) {
-            user.setName(user.getLogin());
-        }
+    @PutMapping("/{id}/friends/{friendId}")
+    public void addFriend(@PathVariable int id, @PathVariable int friendId) {
+        service.addFriend(id, friendId);
     }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public void deleteFriend(@PathVariable int id, @PathVariable int friendId) {
+        service.deleteFriend(id, friendId);
+    }
+
+    @GetMapping("/{id}/friends")
+    public List<User> getFriends(@PathVariable int id) {
+        return service.getFriends(id);
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
+        return service.getCommonFriends(id, otherId);
+    }
+
+
 }

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class User {
@@ -16,11 +18,12 @@ public class User {
     private String login;
     private String name;
     private LocalDate birthday;
+    private Set<Integer> friends = new HashSet<>();
 
     public User() {
     }
 
-    public User(String email, String login, String name, LocalDate localDate) {
+    public User(String email, String login, String name, LocalDate localDate) {// подумать про друзей
         this.email = email;
         this.login = login;
         this.name = name;
@@ -34,5 +37,14 @@ public class User {
         this.name = name;
         this.birthday = localDate;
     }
+
+    public void addFriend(int id) {
+        friends.add(id);
+    }
+
+    public void deleteFriend(int id) {
+        friends.remove(id);
+    }
+
 
 }
