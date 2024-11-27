@@ -21,7 +21,7 @@ public class User {
     private Set<Integer> friends = new HashSet<>();
 
 
-    public User(String email, String login, String name, LocalDate localDate) {// подумать про друзей
+    public User(String email, String login, String name, LocalDate localDate) {
         this.email = email;
         this.login = login;
         this.name = name;
@@ -43,6 +43,4 @@ public class User {
     public void deleteFriend(int id) {
         friends.remove(id);
     }
-
-
 }
