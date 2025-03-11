@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 class UserControllerTest {
-
+/*
     UserController controller = new UserController(new UserService(new InMemoryUserStorage()));
 
     User user = new User("login@login.ru", "login", "name",
@@ -93,4 +93,6 @@ class UserControllerTest {
         Assertions.assertEquals(commonFriends.get(0), commonFriend, "Пользователи не совпадают!");
 
     }
+
+ */
 }

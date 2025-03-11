@@ -68,6 +68,21 @@ public class InMemoryFilmStorage implements FilmStorage {
         return films.containsKey(id);
     }
 
+    @Override
+    public void addLike(int filmId, int userId) {
+
+    }
+
+    @Override
+    public void removeLike(int filmId, int userId) {
+
+    }
+
+    @Override
+    public List<Film> getPopularFilms(int count) {
+        return null;
+    }
+
 
     private boolean isValid(LocalDate localDate) {
         LocalDate birthdayOfFilms = LocalDate.of(1895, Month.DECEMBER, 28);
